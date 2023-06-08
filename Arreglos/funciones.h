@@ -2,129 +2,211 @@
 #define FUNCIONES_H
 
 #include <iostream>
-#include "busqueda.h"
-#include "ordenacion.h"
-
+#include <string>
 using namespace std;
 
-void insercion_o(int*, int, int, int);
-void eliminacion_o(int*, int, int);
-void modificacion_o(int*, int, int, int);
+struct alumno {
+    int orden;
+    int codigo;
+    string nombre;
+    float nota1, nota2;
+    float promedio;
+};
 
-void insercion_d(int*, int, int, int);
-void eliminacion_d(int*, int, int);
-void modificacion_d(int*, int, float, float);
+int busqueda(alumno*, int, int);
+void ordenacion(alumno*, int);
+
+void mostrar(alumno*,int);
+void mostrar_uno(alumno*,int);
+
+void insercion_o(alumno*, int, int, int);
+void eliminacion_o(alumno*, int, int);
+void modificacion_o(alumno*, int, int, int);
+
+void insercion_d(alumno*, int, int, int);
+void eliminacion_d(alumno*, int, int);
+void modificacion_d(alumno*, int, float, float);
 
 
-void insercion_o(int *x, int n, int max, int dato){
+int busqueda(alumno *x, int n, int codigo){
+    int i=0;
     int pos;
-    if(n==max){
-        cout<<"El arreglo esta lleno"<<endl;
+    while (i < n && x[i].codigo < codigo) {
+        i++;
+    }
+    if(i>n || x[i].codigo>codigo){
+        pos=-i;
+        return pos;
     }
     else{
-        pos = busqueda(x, n, dato);
-        if(pos<0){
-            x[n+1]=dato;
-            n=n+1;
+        pos=i;
+        return pos;
+    }
+}
+
+void ordenacion(alumno *x, int n){
+    alumno aux;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            if(x[j].codigo>x[j+1].codigo){
+                aux=x[j];
+                x[j]=x[j+1];
+                x[j+1]=aux;
+            }
         }
-        else{
-            cout<<"\nEl dato se repite"<<endl;
+    }
+    for(int i=0;i<n;i++){
+        x[i].orden=i+1;
+    }
+}
+
+void mostrar(alumno *x,int n){
+    cout << "\n<<<<<<<<<<<<<<<<  R    E   G   I   S   T   R   O   :  >>>>>>>>>>>>>>>>" << endl<<endl;
+    cout << setw(10)<<"#ORDEN" <<setw(10);
+    cout << "CODIGO"<<setw(20);
+    cout << "NOMBRE Y APELLIDO" <<setw(10);
+    cout << "NOTA 1"<<setw(10);
+    cout << "NOTA 2"<<setw(10);
+    cout << "PROMEDIO"<<endl<<endl;
+    for (int i = 0; i < n; i++) {
+        cout <<setw(10)<<x[i].orden << setw(10);
+        cout <<x[i].codigo << setw(20);
+        cout <<x[i].nombre <<setw(10);
+        cout <<x[i].nota1 << setw(10);
+        cout <<x[i].nota2 << setw(10);
+        cout <<x[i].promedio <<endl;
+    }
+    cout<<endl;
+}
+
+void mostrar_uno(alumno *x, int n){
+    int i=n-1;
+    cout << "\n<<<<<<<<<<<<<<<<  R    E   G   I   S   T   R   O   :  >>>>>>>>>>>>>>>>" << endl<<endl;
+    cout << setw(10)<<"#ORDEN" <<setw(10);
+    cout << "CODIGO"<<setw(20);
+    cout << "NOMBRE Y APELLIDO" <<setw(10);
+    cout << "NOTA 1"<<setw(10);
+    cout << "NOTA 2"<<setw(10);
+    cout << "PROMEDIO"<<endl<<endl;
+    cout <<setw(10)<<x[i].orden << setw(10);
+    cout <<x[i].codigo << setw(20);
+    cout <<x[i].nombre <<setw(10);
+    cout <<x[i].nota1 << setw(10);
+    cout <<x[i].nota2 << setw(10);
+    cout <<x[i].promedio <<endl;
+    cout<<endl;
+}
+
+void insercion_o(alumno* x, int& n, int max, int dato) {
+    int pos;
+    if (n == max) {
+        cout << "El arreglo está lleno" << endl;
+    }
+    else {
+        pos = busqueda(x, n, dato);
+        if (pos < 0) {
+            x[n].codigo = dato;
+            n = n + 1;
+        }
+        else {
+            cout << "\nEl dato se repite" << endl;
         }
     }
 }
 
-void eliminacion_o(int *x, int n, int dato){
+void eliminacion_o(alumno* x, int& n, int dato) {
     int pos;
-    if(n>0){
-        pos=busqueda(x,n,dato);
-        if(pos>0){
+    if (n > 0) {
+        pos = busqueda(x, n, dato);
+        if (pos >= 0) {
             n--;
-            for(int i=pos; i<n; i++){
-                x[i]=x[i+1];
+            for (int i = pos; i < n; i++) {
+                x[i] = x[i + 1];
             }
         }
-        else{
-            cout<<"No se encontro el dato"<<endl;
+        else {
+            cout << "No se encontró el dato" << endl;
         }
     }
-    else{
-        cout<<"El array no tiene datos"<<endl;
+    else {
+        cout << "El array no tiene datos" << endl;
     }
 }
 
-void modificacion_o(int *x, int n, int dato1, int dato2){
+void modificacion_o(alumno* x, int n, int dato1, int dato2) {
     int pos;
-    if(n>0){
-        pos=busqueda(x,n,dato1);
-        if(pos>0){
-            x[pos]=dato2;
-            ordenacion(x,n);
+    if (n > 0) {
+        pos = busqueda(x, n, dato1);
+        if (pos >= 0) {
+            x[pos].codigo = dato2;
+            ordenacion(x, n);
         }
-        else{
-            cout<<"No se encontro el dato"<<endl;
+        else {
+            cout << "No se encontró el dato" << endl;
         }
     }
-    else{
-        cout<<"El array no tiene datos";
+    else {
+        cout << "El array no tiene datos" << endl;
     }
 }
 
-void insercion_d(int *x, int n, int max, int dato){
+void insercion_d(alumno* x, int& n, int max, int dato) {
     int pos;
-    if(n==max){
-        cout<<"El arreglo esta lleno"<<endl;
+    if (n == max) {
+        cout << "El arreglo está lleno" << endl;
     }
-    else{
+    else {
         pos = busqueda(x, n, dato);
-        if(pos<0){
-            x[n+1]=dato;
+        if (pos < 0) {
+            x[n].codigo = dato;
+            n++;
         }
-        else{
-            cout<<"\nEl dato se repite"<<endl;
+        else {
+            cout << "\nEl dato se repite" << endl;
         }
     }
 }
 
-void eliminacion_d(int *x, int n,int dato) {
-    if(n>0){
-        for (int i = 0; i < n; i++){
-            if (x[i] == dato) {
-                for (int j = i; j < n-1; j++) {
-                    x[j] = x[j+1];
+void eliminacion_d(alumno* x, int& n, int dato) {
+    if (n > 0) {
+        int i = 0;
+        while (i < n) {
+            if (x[i].codigo == dato) {
+                for (int j = i; j < n - 1; j++) {
+                    x[j] = x[j + 1];
                 }
-            n=n-1;
-            break;
+                n--;
+                break;
             }
+            i++;
         }
-
-        cout<<"El dato no fue encontrado"<<endl;
-    } 
-    else{
-        cout<<"No hay datos"<<endl;
+        if (i == n) {
+            cout << "El dato no fue encontrado" << endl;
+        }
+    }
+    else {
+        cout << "No hay datos" << endl;
     }
 }
 
-void modificacion_d(int *x, int n, float dato1, float dato2){
-    if(n>0){
-        int i=0;
-        int cen=0;
-        while((i<=n) && (cen=0)){
-            if(x[i]==dato1){
-                cen=1;
-                x[i]=dato2;
+void modificacion_d(alumno* x, int n, float dato1, float dato2) {
+    if (n > 0) {
+        int i = 0;
+        int cen = 0;
+        while (i < n) {
+            if (x[i].codigo == dato1) {
+                cen = 1;
+                x[i].codigo = dato2;
+                break;
             }
-            else{
-                i++;
-            }
+            i++;
         }
-        if(cen==0){
-            cout<<"El dato no existe"<<endl;
+        if (cen == 0) {
+            cout << "El dato no existe" << endl;
         }
-        else{}
     }
-    else{
-        cout<<"El array no tiene datos";
+    else {
+        cout << "El array no tiene datos" << endl;
     }
 }
-
 #endif

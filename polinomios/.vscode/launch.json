@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/Estructura de datos/Arreglos",
-      "program": "d:/Estructura de datos/Arreglos/build/Debug/outDebug",
+      "cwd": "d:/Estructura de datos/polinomios",
+      "program": "d:/Estructura de datos/polinomios/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

@@ -1,11 +1,11 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
-#include "lista.h"
+#include "listad.h"
 
 using namespace std;
 
-void menu(nodo*);
+void menu(nodo*,nodo*);
 
 int main() {
     alumno a = {119016, "Carla Flores", 18.6, 19.1, 18.85};
@@ -13,18 +13,19 @@ int main() {
     alumno c = {119014, "Roberto Castro", 14.3, 12.6, 13.45};
 
     nodo* p = NULL;
-    p = new nodo{a, NULL};
+    nodo* f = NULL;
+    p = new nodo{a, NULL, NULL};
     nodo* q = p;
-    q->sig = new nodo{b, NULL};
+    q->sig = new nodo{b, NULL, NULL};
     q = q->sig;
-    q->sig = new nodo{c, NULL};
+    q->sig = new nodo{c, NULL, NULL};
 
-    menu(p);
+    menu(p,f);
 
     return 0;
 }
 
-void menu(nodo* p) {
+void menu(nodo* p,nodo* f) {
     int opcion1,opcion2,opcion3,opcion4;
     system("cls");
     do {
@@ -52,12 +53,12 @@ void menu(nodo* p) {
                     system("cls");
                     switch (opcion2) {
                         case 1:{
-                            p = crear_i(p);
+                            creard_i(p,f);
                             system("cls");
                             break;
                         }
                         case 2:{
-                            p = crear_f(p);
+                            creard_f(p,f);
                             system("cls");
                             break;
                         }
@@ -83,32 +84,31 @@ void menu(nodo* p) {
                 do {
                     cout << "\nM\tE\tN\tU";
                     cout << "\n==========================";
-                    cout << "\n\n1. INSERTAR ANTES DE...";
-                    cout << "\n\n2. INSERTAR DESPUES DE...";
-                    cout << "\n\n3. S A L I R";
+                    cout << "\n\n1. INSERTAR AL INICIO";
+                    cout << "\n\n2. INSERTAR AL FINAL";
+                    cout << "\n\n3. INSERTAR ANTES DE...";
+                    cout << "\n\n4. INSERTAR DESPUES DE...";
+                    cout << "\n\n5. S A L I R";
                     cout << "\n\n\t\tOPCION: ";
                     cin >> opcion3;
                     system("cls");
                     switch (opcion3) {
                         case 1:{
-                            int coda;
-                            recorrer(p);
-                            cout<<"INSERTAR ANTES DE: "<<endl;
-                            cout<<"INGRESE CODIGO DE REFERENCIA: ";cin >> coda;
-                            p = insertar_ad(p, coda);
-                            system("cls");
-                            cout<<"\nINSERTADO CORRECTAMENTE"<<endl<<endl;
-                            recorrer(p);
-                            system("pause");
+                            insertard_i(p,f);
                             system("cls");
                             break;
                         }
                         case 2:{
-                            int codd;
+                            insertard_f(p,f);
+                            system("cls");
+                            break;
+                        }
+                        case 3:{
+                            int coda;
                             recorrer(p);
-                            cout<<"INSERTAR DESPUES DE: "<<endl;
-                            cout<<"INGRESE CODIGO DE REFERENCIA: ";cin>>codd;
-                            p = insertar_dd(p, codd);
+                            cout<<"INSERTAR ANTES DE: "<<endl;
+                            cout<<"INGRESE CODIGO DE REFERENCIA: ";cin >> coda;
+                            insertard_ad(p,f,coda);
                             system("cls");
                             cout<<"\nINSERTADO CORRECTAMENTE"<<endl<<endl;
                             recorrer(p);
@@ -116,7 +116,20 @@ void menu(nodo* p) {
                             system("cls");
                             break;
                         }
-                        case 3:{
+                        case 4:{
+                            int codd;
+                            recorrer(p);
+                            cout<<"INSERTAR DESPUES DE: "<<endl;
+                            cout<<"INGRESE CODIGO DE REFERENCIA: ";cin>>codd;
+                            insertard_dd(p,f,codd);
+                            system("cls");
+                            cout<<"\nINSERTADO CORRECTAMENTE"<<endl<<endl;
+                            recorrer(p);
+                            system("pause");
+                            system("cls");
+                            break;
+                        }
+                        case 5:{
                             cout<<"\tREGRESANDO....."<<endl<<endl;
                             system("pause");
                             system("cls");
@@ -130,7 +143,7 @@ void menu(nodo* p) {
                         }
                     }
                     system("cls");
-                } while (opcion3 != 3);
+                } while (opcion3 != 5);
                 system("cls");
                 break;
             }
@@ -150,12 +163,12 @@ void menu(nodo* p) {
                     system("cls");
                     switch (opcion4) {
                         case 1:{
-                            p = eliminar_p(p);
+                            eliminard_p(p,f);
                             system("cls");
                             break;
                         }
                         case 2:{
-                            p = eliminar_u(p);
+                            eliminard_u(p,f);
                             system("cls");
                             break;
                         }
@@ -163,7 +176,7 @@ void menu(nodo* p) {
                             int codx;
                             recorrer(p);
                             cout<<"INGRESE CODIGO DEL NODO A ELIMINAR: ";cin>>codx;
-                            p = eliminar_x(p,codx);
+                            eliminard_x(p,f,codx);
                             system("cls");
                             cout<<"\nELIMINADO CORRECTAMENTE"<<endl<<endl;
                             recorrer(p);
@@ -175,7 +188,7 @@ void menu(nodo* p) {
                             int codad;
                             recorrer(p);
                             cout<<"INGRESE CODIGO DE REFERENCIA: ";cin>>codad;
-                            p = eliminar_ad(p,codad);
+                            eliminard_ad(p,codad);
                             system("cls");
                             cout<<"\nELIMINADO CORRECTAMENTE"<<endl<<endl;
                             recorrer(p);
@@ -187,7 +200,7 @@ void menu(nodo* p) {
                             int coddd;
                             recorrer(p);
                             cout<<"INGRESE CODIGO DE REFERENCIA: ";cin>>coddd;
-                            p = eliminar_dd(p,coddd);
+                            eliminard_dd(f,coddd);
                             system("cls");
                             cout<<"\nELIMINADO CORRECTAMENTE"<<endl<<endl;
                             recorrer(p);
